@@ -1,4 +1,3 @@
-import { ManagerLayout } from '@/components/layouts/manager_layout'
 import {
   Table,
   TableBody,
@@ -19,6 +18,7 @@ import UpdateRoleSidebar from '@/pages/manager/accounts/roles/components/update_
 import Role from '#models/role'
 import Permission from '#models/permission'
 import Protected from '@/components/commons/protected'
+import { Layout } from '@/components/layouts/default/layout'
 
 type Props = {
   roles: Paginator<Role>
@@ -29,7 +29,8 @@ export default function RolesOverview(props: Props) {
   const [selectedRole, setSelectedRole] = useState<Role | null>(null)
 
   return (
-    <ManagerLayout
+    <Layout
+      mode="manager"
       breadcrumb={[
         { label: 'Manager', url: '/manager' },
         { label: 'Roles overview', url: '/manager/roles' },
@@ -83,7 +84,7 @@ export default function RolesOverview(props: Props) {
 
         <UpdateRoleSidebar state={[selectedRole, setSelectedRole]} />
       </Fragment>
-    </ManagerLayout>
+    </Layout>
   )
 }
 
