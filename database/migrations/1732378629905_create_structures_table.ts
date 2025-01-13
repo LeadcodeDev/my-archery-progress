@@ -9,7 +9,7 @@ export default class extends BaseSchema {
       table.bigint('owner_id').references('id').inTable('users').notNullable()
       table.string('name').notNullable()
       table.string('siret').notNullable()
-      table.boolean('isDeactivated').defaultTo(false).notNullable()
+      table.boolean('is_deactivated').defaultTo(false).notNullable()
       table.string('logo').notNullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')

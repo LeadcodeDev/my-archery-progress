@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import Practice from '#models/practice'
 
@@ -7,7 +7,7 @@ export default class PracticeFiringSequence extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
-  @belongsTo(() => Practice)
+  @column()
   declare practice: BelongsTo<typeof Practice>
 
   @column()

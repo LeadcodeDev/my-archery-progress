@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column } from '@adonisjs/lucid/orm'
+import { BaseModel, column } from '@adonisjs/lucid/orm'
 import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 import User from '#models/user'
 
@@ -10,8 +10,8 @@ export default class Structure extends BaseModel {
   @column()
   declare name: string
 
-  @belongsTo(() => User)
-  declare owner: BelongsTo<typeof User>
+  @column()
+  declare ownerId: BelongsTo<typeof User>
 
   @column()
   declare siret: string
