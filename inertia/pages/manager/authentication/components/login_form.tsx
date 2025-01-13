@@ -24,7 +24,7 @@ export default function ForgotPasswordForm(props: Props) {
               <FormItem className="flex-1">
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="email" aria-autocomplete="both" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -38,7 +38,7 @@ export default function ForgotPasswordForm(props: Props) {
               <FormItem className="flex-1">
                 <FormLabel>Mot de passe</FormLabel>
                 <FormControl>
-                  <Input {...field} />
+                  <Input type="password" aria-autocomplete="both" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
