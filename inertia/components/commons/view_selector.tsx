@@ -7,12 +7,14 @@ import { cn } from '@/commons/utils'
 import { router } from '@inertiajs/react'
 
 type Props = {
-  currentView: keyof typeof views
+  currentView: string
 }
 
 export default function ViewSelector(props: Props) {
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState<keyof typeof views>(props.currentView)
+  const [value, setValue] = useState<string>(props.currentView)
+
+  const currentView = views.find((view) => view.id === value)
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -24,25 +26,25 @@ export default function ViewSelector(props: Props) {
           className="flex !justify-start !px-3 w-[200px]"
         >
           <ChevronsUpDown className="h-4 w-4 shrink-0 opacity-50" />
-          {views[value].label}
+          {currentView?.label}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
         <Command>
           <CommandList>
             <CommandGroup>
-              {Object.entries(views).map(([key, view]) => (
+              {views.map((view) => (
                 <CommandItem
-                  key={key}
-                  value={key}
+                  key={view.id}
+                  value={view.id}
                   onSelect={(currentValue) => {
-                    setValue(currentValue as keyof typeof views)
+                    setValue(currentValue)
                     setOpen(false)
-                    router.put(view.href)
+                    router.get(view.href)
                   }}
                 >
                   <Check
-                    className={cn('mr-2 h-4 w-4', key === value ? 'opacity-100' : 'opacity-0')}
+                    className={cn('mr-2 h-4 w-4', view.id === value ? 'opacity-100' : 'opacity-0')}
                   />
                   {view.label}
                 </CommandItem>
@@ -55,17 +57,20 @@ export default function ViewSelector(props: Props) {
   )
 }
 
-export const views = {
-  mySpace: {
+export const views = [
+  {
+    id: 'platform',
     label: 'Mon espace',
     href: '/platform/practices/overview',
   },
-  myGuild: {
+  {
+    id: 'guild',
     label: 'Mon club',
-    href: '/club/members/overview',
+    href: '/guilds/id/members/overview',
   },
-  manager: {
+  {
+    id: 'manager',
     label: 'Administrateur',
     href: '/manager/accounts/users/overview',
   },
-} as const
+]

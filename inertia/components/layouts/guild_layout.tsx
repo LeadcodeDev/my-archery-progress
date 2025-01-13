@@ -1,7 +1,8 @@
 import { ComponentProps, Fragment, PropsWithChildren, ReactNode } from 'react'
 import {
   Sidebar,
-  SidebarContent, SidebarFooter,
+  SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
@@ -12,7 +13,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarRail,
-  SidebarTrigger
+  SidebarTrigger,
 } from '@/components/ui/sidebar'
 import { Separator } from '@/components/ui/separator'
 import {
@@ -24,7 +25,7 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { ChevronRight, LogOutIcon, User2Icon } from 'lucide-react'
+import { ChevronRight, LogOutIcon } from 'lucide-react'
 import { Link, router } from '@inertiajs/react'
 import { Toaster } from '@/components/ui/sonner'
 import { cn } from '@/commons/utils'
@@ -41,10 +42,28 @@ type Link = {
 
 const links: Link[] = [
   {
-    title: 'Mon suivis d\'archer',
+    title: 'Association',
     items: [
-      { title: 'Mes séances', url: '/platform/sessions/overview' },
-      { title: 'Mes entrainements', url: '/platform/practices/overview' },
+      { title: 'Licenciés', url: '/guild/members/overview' },
+      { title: 'Encadrants', url: '/guild/supervisors/overview' },
+      { title: 'Équipe administrative', url: '/guild/staff/overview' },
+    ],
+  },
+  {
+    title: 'Entrainements',
+    items: [
+      { title: 'Planning', url: '/guild/members/overview' },
+      { title: 'Séances', url: '/guild/sessions/overview' },
+      { title: 'Entrainements', url: '/guild/practices/overview' },
+    ],
+  },
+  {
+    title: 'Paramètres',
+    items: [
+      { title: 'Club', url: '/guild/settings' },
+      { title: 'Licences', url: '/guild/members/transfert' },
+      { title: 'Documents partagés', url: '/guild/documents/transfert' },
+      { title: 'Transfert interclub', url: '/guild/members/transfert' },
     ],
   },
 ]
@@ -54,7 +73,7 @@ type Props = Authenticated & {
   trailing?: ReactNode
 }
 
-export function ClientLayout(props: PropsWithChildren<Props>) {
+export function GuildLayout(props: PropsWithChildren<Props>) {
   return (
     <SidebarProvider>
       <AppSidebar {...props} />
@@ -111,7 +130,7 @@ function AppSidebar(props: ComponentProps<typeof Sidebar> & Authenticated) {
           </p>
           <ScrollBar orientation="horizontal" />
         </ScrollArea>
-        <ViewSelector currentView="platform" />
+        <ViewSelector currentView="guild" />
       </SidebarHeader>
       <SidebarContent className="py-5 gap-0">
         {links.map((item) => {
@@ -124,10 +143,6 @@ function AppSidebar(props: ComponentProps<typeof Sidebar> & Authenticated) {
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
-        <Button variant="outline">
-          <User2Icon className="mr-2" />
-          Mon compte
-        </Button>
         <Button variant="default" onClick={() => router.post('/authentication/logout')}>
           <LogOutIcon className="mr-2" />
           Déconnexion
@@ -158,10 +173,7 @@ function SidebarCollapse(props: { item: Link }) {
       className="group/collapsible"
     >
       <SidebarGroup>
-        <SidebarGroupLabel
-          asChild
-          className="group/label text-sm text-sidebar-foreground"
-        >
+        <SidebarGroupLabel asChild className="group/label text-sm text-sidebar-foreground">
           <CollapsibleTrigger>
             <span className="text-xs font-bold uppercase text-sidebar-foreground/50 hover:text-sidebar-accent-foreground/75">
               {props.item.title}

@@ -7,9 +7,7 @@ import { AccessToken, DbAccessTokensProvider } from '@adonisjs/auth/access_token
 import type { ManyToMany } from '@adonisjs/lucid/types/relations'
 import Role from '#models/role'
 import Permission from '#models/permission'
-import { Infer } from '@vinejs/vine/types'
 import StringHelper from '@adonisjs/core/helpers/string'
-import { userSearchValidator } from '#app/accounts/validators/user_validator'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -65,24 +63,17 @@ export default class User extends compose(BaseModel, AuthFinder) {
     user.uid = StringHelper.generateRandom(10)
   }
 
-  static search = scope(
-    (
-      query,
-      search: Infer<typeof userSearchValidator>['search'],
-      type: Infer<typeof userSearchValidator>['type'],
-      status: Infer<typeof userSearchValidator>['status']
-    ) => {
-      query.if(search, (builder) => {
-        const columns = ['firstname', 'lastname', 'email', 'uid']
-        columns.forEach((field) => {
-          builder.orWhere(field, 'like', `%${search}%`)
-        })
+  static search = scope((query, search?: string, type?: UserType, status?: UserStatus) => {
+    query.if(search, (builder) => {
+      const columns = ['firstname', 'lastname', 'email', 'uid']
+      columns.forEach((field) => {
+        builder.orWhere(field, 'like', `%${search}%`)
       })
+    })
 
-      query.if(type, (builder) => builder.andWhere('type', type!))
-      query.if(status !== undefined, (builder) => builder.andWhere('status', status!))
-    }
-  )
+    query.if(type, (builder) => builder.andWhere('type', type!))
+    query.if(status !== undefined, (builder) => builder.andWhere('status', status!))
+  })
 }
 
 export enum UserType {
