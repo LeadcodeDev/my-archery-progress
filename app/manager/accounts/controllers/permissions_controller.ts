@@ -4,7 +4,7 @@ import {
   createPermissionValidator,
   permissionSearchValidator,
   updatePermissionValidator,
-} from '#app/accounts/validators/permissions_validator'
+} from '#app/manager/accounts/validators/permissions_validator'
 
 export default class PermissionController {
   async index({ request, inertia }: HttpContext) {

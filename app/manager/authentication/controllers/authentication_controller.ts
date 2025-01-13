@@ -6,7 +6,7 @@ import router from '@adonisjs/core/services/router'
 import {
   resetPasswordValidator,
   forgotPasswordValidator,
-} from '#app/accounts/validators/user_validator'
+} from '#app/manager/accounts/validators/user_validator'
 
 export default class AuthenticationController {
   async login({ auth, response, inertia }: HttpContext) {
