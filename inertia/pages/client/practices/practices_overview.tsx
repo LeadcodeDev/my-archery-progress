@@ -3,18 +3,18 @@ import TableFilter, { ComponentFilter } from '@/components/commons/table_filter'
 import Protected from '@/components/commons/protected'
 import { CreatePermissionDialog } from '@/pages/manager/accounts/permissions/components/permissions/create_permission_dialog'
 import { Button } from '@/components/ui/button'
-import { Authenticated, Paginator } from '@/commons/types'
+import { Paginator } from '@/commons/types'
 import Permission from '#models/permission'
-import { ClientLayout } from '@/components/layouts/client_layout'
+import { Layout } from '@/components/layouts/default/layout'
 
-type Props = Authenticated & {
+type Props = {
   practices: Paginator<Permission>
 }
 
 export default function PracticesOverview(props: Props) {
   return (
-    <ClientLayout
-      {...props}
+    <Layout
+      mode="platform"
       breadcrumb={[
         { label: 'Platform', url: '/platform' },
         { label: 'Practices', url: '/platform/practices/overview' },
@@ -40,7 +40,7 @@ export default function PracticesOverview(props: Props) {
       }
     >
       pp
-    </ClientLayout>
+    </Layout>
   )
 }
 

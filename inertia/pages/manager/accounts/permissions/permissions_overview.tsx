@@ -1,4 +1,3 @@
-import { ManagerLayout } from '@/components/layouts/manager_layout'
 import {
   Table,
   TableBody,
@@ -18,6 +17,7 @@ import Permission from '#models/permission'
 import Protected from '@/components/commons/protected'
 import UpdatePermissionSidebar from '@/pages/manager/accounts/permissions/components/permissions/update_permission_sidebar'
 import { CreatePermissionDialog } from '@/pages/manager/accounts/permissions/components/permissions/create_permission_dialog'
+import { Layout } from '@/components/layouts/default/layout'
 
 type Props = {
   permissions: Paginator<Permission>
@@ -27,7 +27,8 @@ export default function PermissionsOverview(props: Props) {
   const [selectedPermission, setSelectedPermission] = useState<Permission | null>(null)
 
   return (
-    <ManagerLayout
+    <Layout
+      mode="manager"
       breadcrumb={[
         { label: 'Manager', url: '/manager' },
         { label: 'Permissions overview', url: '/manager/permissions' },
@@ -85,7 +86,7 @@ export default function PermissionsOverview(props: Props) {
 
         <UpdatePermissionSidebar state={[selectedPermission, setSelectedPermission]} />
       </Fragment>
-    </ManagerLayout>
+    </Layout>
   )
 }
 

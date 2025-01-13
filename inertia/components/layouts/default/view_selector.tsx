@@ -4,17 +4,37 @@ import { Button } from '@/components/ui/button'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import { Command, CommandGroup, CommandItem, CommandList } from '@/components/ui/command'
 import { cn } from '@/commons/utils'
-import { router } from '@inertiajs/react'
+import { router, usePage } from '@inertiajs/react'
 
 type Props = {
   currentView: string
 }
 
 export default function ViewSelector(props: Props) {
+  const page = usePage()
+
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState<string>(props.currentView)
 
-  const currentView = views.find((view) => view.id === value)
+  const buildViews = [
+    ...views,
+    {
+      id: '1',
+      label: 'Mon club 1',
+      href: '/guilds/1/members/overview',
+    },
+    {
+      id: '2',
+      label: 'Mon club 2',
+      href: '/guilds/2/members/overview',
+    },
+  ]
+
+  const currentView = buildViews.find((view) => {
+    return page.url.startsWith('/guilds')
+      ? page.url.includes(view.id)
+      : view.id === value
+  })
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -33,10 +53,11 @@ export default function ViewSelector(props: Props) {
         <Command>
           <CommandList>
             <CommandGroup>
-              {views.map((view) => (
+              {buildViews.map((view) => (
                 <CommandItem
                   key={view.id}
                   value={view.id}
+                  className="cursor-pointer"
                   onSelect={(currentValue) => {
                     setValue(currentValue)
                     setOpen(false)
@@ -64,13 +85,8 @@ export const views = [
     href: '/platform/practices/overview',
   },
   {
-    id: 'guild',
-    label: 'Mon club',
-    href: '/guilds/id/members/overview',
-  },
-  {
     id: 'manager',
     label: 'Administrateur',
-    href: '/manager/accounts/users/overview',
+    href: '/manager/users/overview',
   },
 ]

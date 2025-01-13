@@ -1,4 +1,3 @@
-import { ManagerLayout } from '@/components/layouts/manager_layout'
 import {
   Table,
   TableBody,
@@ -11,7 +10,7 @@ import { Badge } from '@/components/ui/badge'
 import { Fragment, useState } from 'react'
 
 import User from '#models/user'
-import { Authenticated, Paginator, State, UserStatus } from '@/commons/types'
+import { Paginator, State, UserStatus } from '@/commons/types'
 import { Searchbar } from '@/components/commons/searchbar'
 import { Button } from '@/components/ui/button'
 import { CopyIcon, PlusIcon } from 'lucide-react'
@@ -20,8 +19,9 @@ import TableFilter, { ComponentFilter } from '@/components/commons/table_filter'
 import Protected from '@/components/commons/protected'
 import { CreateUserDialog } from '@/pages/manager/accounts/users/components/create_user_dialog'
 import UpdateUserSidebar from '@/pages/manager/accounts/users/components/update_user_sidebar'
+import { Layout } from '@/components/layouts/default/layout'
 
-type Props = Authenticated & {
+type Props = {
   users: Paginator<User>
 }
 
@@ -29,7 +29,8 @@ export default function UsersOverview(props: Props) {
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
   return (
-    <ManagerLayout
+    <Layout
+      mode="manager"
       breadcrumb={[
         { label: 'Manager', url: '/manager' },
         { label: 'Users overview', url: '/manager/users' },
@@ -82,7 +83,7 @@ export default function UsersOverview(props: Props) {
       </Fragment>
 
       <UpdateUserSidebar state={[selectedUser, setSelectedUser]} />
-    </ManagerLayout>
+    </Layout>
   )
 }
 
