@@ -9,7 +9,7 @@ export default class PracticeMessage extends BaseModel {
   declare id: number
 
   @column()
-  declare practice: BelongsTo<typeof Practice>
+  declare practiceId: BelongsTo<typeof Practice>
 
   @column()
   declare content: string

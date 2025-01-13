@@ -14,10 +14,10 @@ export default class Practice extends BaseModel {
   declare uid: string
 
   @column()
-  declare structure: BelongsTo<typeof Structure>
+  declare structureId: BelongsTo<typeof Structure>
 
   @column()
-  declare user: BelongsTo<typeof User>
+  declare userId: BelongsTo<typeof User>
 
   @column()
   declare name: string
@@ -38,7 +38,7 @@ export default class Practice extends BaseModel {
   declare results: Record<string, any>
 
   @column()
-  declare session: BelongsTo<typeof Session>
+  declare sessionId: BelongsTo<typeof Session>
 
   @column()
   declare type: string

@@ -8,10 +8,10 @@ export default class PracticeFiringSequence extends BaseModel {
   declare id: number
 
   @column()
-  declare practice: BelongsTo<typeof Practice>
+  declare practiceId: BelongsTo<typeof Practice>
 
   @column()
-  declare results: Record<string, any>
+  declare resultsId: Record<string, any>
 
   @column()
   declare annotation: string

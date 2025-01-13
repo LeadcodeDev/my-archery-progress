@@ -20,7 +20,7 @@ export default class PracticeCountedShotPreset extends BaseModel {
   declare metadata: Record<string, any>
 
   @column()
-  declare structure: BelongsTo<typeof Structure>
+  declare structureId: BelongsTo<typeof Structure>
 
   @column()
   declare flags: Record<string, any>
