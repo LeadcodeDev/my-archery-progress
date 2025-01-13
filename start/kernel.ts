@@ -48,5 +48,5 @@ router.use([
  * the routes or the routes group.
  */
 export const middleware = router.named({
-  auth: () => import('#app/authentication/middleware/auth_middleware'),
+  auth: () => import('#app/manager/authentication/middleware/auth_middleware'),
 })

@@ -1,7 +1,8 @@
 import router from '@adonisjs/core/services/router'
-const AuthenticationController = () =>
-  import('#app/authentication/controllers/authentication_controller')
 import { middleware } from '#start/kernel'
+
+const AuthenticationController = () =>
+  import('#app/manager/authentication/controllers/authentication_controller')
 
 router
   .group(() => {
