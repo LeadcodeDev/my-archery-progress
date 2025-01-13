@@ -43,7 +43,6 @@ export default await Env.create(new URL('../', import.meta.url), {
   |----------------------------------------------------------
   */
   DRIVE_DISK: Env.schema.enum(['s3', 'gcp'] as const),
-  S3_BUCKET: Env.schema.string(),
   AUTH_COOKIE: Env.schema.string(),
   GCP_CLIENT_EMAIL: Env.schema.string(),
   GCP_PRIVATE_KEY: Env.schema.string(),
