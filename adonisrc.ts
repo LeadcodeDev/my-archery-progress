@@ -14,7 +14,7 @@ export default defineConfig({
     () => import('@adonisjs/core/commands'),
     () => import('@adonisjs/lucid/commands'),
     () => import('@adonisjs/bouncer/commands'),
-    () => import('@adonisjs/mail/commands')
+    () => import('@adonisjs/mail/commands'),
   ],
 
   /*
@@ -45,7 +45,7 @@ export default defineConfig({
     () => import('@adonisjs/inertia/inertia_provider'),
     () => import('@adonisjs/bouncer/bouncer_provider'),
     () => import('@adonisjs/drive/drive_provider'),
-    () => import('@adonisjs/mail/mail_provider')
+    () => import('@adonisjs/mail/mail_provider'),
   ],
 
   /*
@@ -58,8 +58,9 @@ export default defineConfig({
   */
   preloads: [
     () => import('#start/routes'),
-    () => import('#app/accounts/routes'),
-    () => import('#app/authentication/routes'),
+    () => import('#app/manager/accounts/routes'),
+    () => import('#app/manager/authentication/routes'),
+    () => import('#app/client/practices/routes'),
     () => import('#start/kernel'),
   ],
 
