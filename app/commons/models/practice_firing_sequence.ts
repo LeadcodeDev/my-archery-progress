@@ -15,7 +15,7 @@ export default class PracticeFiringSequence extends BaseModel {
   declare annotation: string
 
   @column()
-  declare total: bigint
+  declare total: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

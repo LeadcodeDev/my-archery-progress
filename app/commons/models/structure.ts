@@ -9,7 +9,7 @@ export default class Structure extends BaseModel {
   declare name: string
 
   @column()
-  declare ownerId: bigint
+  declare ownerId: number
 
   @column()
   declare siret: string

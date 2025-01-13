@@ -6,13 +6,13 @@ export default class PracticeMessage extends BaseModel {
   declare id: number
 
   @column()
-  declare practiceId: bigint
+  declare practiceId: number
 
   @column()
   declare content: string
 
   @column()
-  declare userId: bigint
+  declare userId: number
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

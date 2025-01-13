@@ -6,10 +6,10 @@ export default class Session extends BaseModel {
   declare id: number
 
   @column()
-  declare userId: bigint
+  declare userId: number
 
   @column()
-  declare structureId: bigint
+  declare structureId: number
 
   @column.dateTime()
   declare target_datetime: DateTime

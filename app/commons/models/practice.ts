@@ -9,10 +9,10 @@ export default class Practice extends BaseModel {
   declare uid: string
 
   @column()
-  declare structureId: bigint
+  declare structureId: number
 
   @column()
-  declare userId: bigint
+  declare userId: number
 
   @column()
   declare name: string
@@ -33,7 +33,7 @@ export default class Practice extends BaseModel {
   declare results: Record<string, any>
 
   @column()
-  declare sessionId: bigint
+  declare sessionId: number
 
   @column()
   declare type: string

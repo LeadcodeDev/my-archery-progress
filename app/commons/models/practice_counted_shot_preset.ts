@@ -18,7 +18,7 @@ export default class PracticeCountedShotPreset extends BaseModel {
   declare metadata: Record<string, any>
 
   @column()
-  declare structureId: bigint
+  declare structureId: number
 
   @column()
   declare flags: Record<string, any>
