@@ -1,17 +1,15 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import Practice from '#models/practice'
 
 export default class PracticeFiringSequence extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare practiceId: BelongsTo<typeof Practice>
+  declare practiceId: bigint
 
   @column()
-  declare resultsId: Record<string, any>
+  declare results: Record<string, any>
 
   @column()
   declare annotation: string

@@ -1,7 +1,5 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import Structure from '#models/structure'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
 
 export default class PracticeCountedShotPreset extends BaseModel {
   @column({ isPrimary: true })
@@ -20,7 +18,7 @@ export default class PracticeCountedShotPreset extends BaseModel {
   declare metadata: Record<string, any>
 
   @column()
-  declare structureId: BelongsTo<typeof Structure>
+  declare structureId: bigint
 
   @column()
   declare flags: Record<string, any>

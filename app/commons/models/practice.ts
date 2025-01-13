@@ -1,10 +1,5 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-
-import User from '#models/user'
-import Structure from '#models/structure'
-import Session from '#models/session'
 
 export default class Practice extends BaseModel {
   @column({ isPrimary: true })
@@ -14,10 +9,10 @@ export default class Practice extends BaseModel {
   declare uid: string
 
   @column()
-  declare structureId: BelongsTo<typeof Structure>
+  declare structureId: bigint
 
   @column()
-  declare userId: BelongsTo<typeof User>
+  declare userId: bigint
 
   @column()
   declare name: string
@@ -38,7 +33,7 @@ export default class Practice extends BaseModel {
   declare results: Record<string, any>
 
   @column()
-  declare sessionId: BelongsTo<typeof Session>
+  declare sessionId: bigint
 
   @column()
   declare type: string

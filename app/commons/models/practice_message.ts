@@ -1,21 +1,18 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import Practice from '#models/practice'
-import User from '#models/user'
 
 export default class PracticeMessage extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare practiceId: BelongsTo<typeof Practice>
+  declare practiceId: bigint
 
   @column()
   declare content: string
 
   @column()
-  declare user: BelongsTo<typeof User>
+  declare userId: bigint
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

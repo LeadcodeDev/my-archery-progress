@@ -1,18 +1,15 @@
 import { DateTime } from 'luxon'
 import { BaseModel, column } from '@adonisjs/lucid/orm'
-import User from '#models/user'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
-import Structure from '#models/structure'
 
 export default class Session extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
 
   @column()
-  declare userId: BelongsTo<typeof User>
+  declare userId: bigint
 
   @column()
-  declare structureId: BelongsTo<typeof Structure>
+  declare structureId: bigint
 
   @column.dateTime()
   declare target_datetime: DateTime
