@@ -3,7 +3,7 @@ import {
   createUserValidator,
   updateUserValidator,
   userSearchValidator,
-} from '#app/accounts/validators/user_validator'
+} from '#app/manager/accounts/validators/user_validator'
 import User from '#models/user'
 import { inject } from '@adonisjs/core'
 import AssetsService from '#app/commons/services/assets_service'

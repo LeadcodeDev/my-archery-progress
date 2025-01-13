@@ -4,7 +4,7 @@ import {
   createRoleValidator,
   roleSearchValidator,
   updateRoleValidator,
-} from '#app/accounts/validators/roles_validator'
+} from '#app/manager/accounts/validators/roles_validator'
 import Permission from '#models/permission'
 
 export default class RolesController {
