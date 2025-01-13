@@ -42,12 +42,12 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring the drive package
   |----------------------------------------------------------
   */
-  DRIVE_DISK: Env.schema.enum(['s3'] as const),
-  AWS_ACCESS_KEY_ID: Env.schema.string(),
-  AWS_SECRET_ACCESS_KEY: Env.schema.string(),
-  AWS_REGION: Env.schema.string(),
+  DRIVE_DISK: Env.schema.enum(['s3', 'gcp'] as const),
   S3_BUCKET: Env.schema.string(),
   AUTH_COOKIE: Env.schema.string(),
+  GCP_CLIENT_EMAIL: Env.schema.string(),
+  GCP_PRIVATE_KEY: Env.schema.string(),
+  GCP_BUCKET: Env.schema.string(),
 
   /*
   |----------------------------------------------------------
