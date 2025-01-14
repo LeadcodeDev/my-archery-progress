@@ -1,6 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
+import { afterFind, BaseModel, beforeCreate, column, scope } from '@adonisjs/lucid/orm'
 import StringHelper from '@adonisjs/core/helpers/string'
+import drive from '@adonisjs/drive/services/main'
+import { Sharp } from 'sharp'
 
 export default class Structure extends BaseModel {
   @column({ isPrimary: true })
@@ -19,7 +21,7 @@ export default class Structure extends BaseModel {
   declare isDeactivated: boolean
 
   @column()
-  declare logo: string | null
+  declare logo: string | undefined
 
   @column()
   declare uid: string
@@ -29,6 +31,13 @@ export default class Structure extends BaseModel {
 
   @column.dateTime({ autoCreate: true, autoUpdate: true })
   declare updatedAt: DateTime
+
+  @afterFind()
+  static async resolveSignedUrls(structure: Structure) {
+    if (structure.logo) {
+      structure.logo = await drive.use().getSignedUrl(structure.logo)
+    }
+  }
 
   @beforeCreate()
   public static assignUuid(structure: Structure) {
@@ -45,4 +54,8 @@ export default class Structure extends BaseModel {
       })
     })
   })
+
+  static transformLogo(sharp: Sharp) {
+    return sharp.resize(256, 256)
+  }
 }

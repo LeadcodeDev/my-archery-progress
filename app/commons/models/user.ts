@@ -9,6 +9,7 @@ import Role from '#models/role'
 import Permission from '#models/permission'
 import StringHelper from '@adonisjs/core/helpers/string'
 import Structure from '#models/structure'
+import { Sharp } from 'sharp'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -80,6 +81,10 @@ export default class User extends compose(BaseModel, AuthFinder) {
     query.if(type, (builder) => builder.andWhere('type', type!))
     query.if(status !== undefined, (builder) => builder.andWhere('status', status!))
   })
+
+  static transformAvatar(sharp: Sharp) {
+    return sharp.resize(256, 256)
+  }
 }
 
 export enum UserType {

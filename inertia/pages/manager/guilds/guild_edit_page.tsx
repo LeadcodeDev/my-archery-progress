@@ -8,25 +8,29 @@ import Role from '#models/role'
 import { Dispatch, SetStateAction } from 'react'
 import {
   CreateGuildFormSchema,
-  createGuildValidator,
+  UpdateGuildFormSchema,
+  updateGuildValidator,
 } from '@/pages/manager/guilds/validators/guild_validators'
-import CreateGuildForm from '@/pages/manager/guilds/components/forms/create_guild_form'
 import { Form } from '@/components/ui/form'
+import EditGuildForm from '@/pages/manager/guilds/components/forms/edit_guild_form'
+import Structure from '#models/structure'
 
 type Props = {
   roles: Role[]
+  guild: Structure
   setOpen: Dispatch<SetStateAction<boolean>>
 }
 
-export default function GuildCreatePage(props: Props) {
-  const canBeUsed = useUserPermissions(permission.guilds('store', true))
+export default function GuildEditPage(props: Props) {
+  const canBeUsed = useUserPermissions(permission.guilds('update', true))
 
-  const form = useForm<CreateGuildFormSchema>({
-    resolver: zodResolver(createGuildValidator),
-    defaultValues: {
-      name: '',
-      siret: '',
-      isDeactivated: false,
+  const form = useForm<UpdateGuildFormSchema>({
+    resolver: zodResolver(updateGuildValidator),
+    values: {
+      name: props.guild.name,
+      siret: props.guild.siret,
+      isDeactivated: props.guild.isDeactivated,
+      defaultLogo: props.guild.logo,
       logo: undefined,
     },
   })
@@ -41,7 +45,7 @@ export default function GuildCreatePage(props: Props) {
       payload.append('logo', values.logo)
     }
 
-    router.post(`/manager/guilds`, payload, {
+    router.put(`/manager/guilds/${props.guild.uid}`, payload, {
       preserveState: true,
       onSuccess: () => {
         props.setOpen(false)
@@ -61,10 +65,7 @@ export default function GuildCreatePage(props: Props) {
 
   return (
     <Form {...form}>
-      <CreateGuildForm
-        id="form"
-        canBeUsed={canBeUsed}
-        onSubmit={handleSubmit}
-      />
-    </Form>)
+      <EditGuildForm id="form" onSubmit={handleSubmit} guild={props.guild} canBeUsed={canBeUsed} />
+    </Form>
+  )
 }
