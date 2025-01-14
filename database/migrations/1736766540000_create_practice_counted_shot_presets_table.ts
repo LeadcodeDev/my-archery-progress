@@ -10,7 +10,7 @@ export default class extends BaseSchema {
       table.string('description').notNullable()
       table.string('content').notNullable()
       table.jsonb('metadata').notNullable()
-      table.bigint('structure_id').references('id').inTable('structures').nullable()
+      table.bigint('structure_id').unsigned().references('id').inTable('structures').nullable()
       table.jsonb('flags').notNullable()
       table.string('type').notNullable()
 

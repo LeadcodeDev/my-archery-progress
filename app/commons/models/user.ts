@@ -8,6 +8,7 @@ import type { ManyToMany } from '@adonisjs/lucid/types/relations'
 import Role from '#models/role'
 import Permission from '#models/permission'
 import StringHelper from '@adonisjs/core/helpers/string'
+import Structure from '#models/structure'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -58,9 +59,14 @@ export default class User extends compose(BaseModel, AuthFinder) {
   @manyToMany(() => Role)
   declare roles: ManyToMany<typeof Role>
 
+  @manyToMany(() => Structure)
+  declare structures: ManyToMany<typeof Structure>
+
   @beforeCreate()
   public static assignUuid(user: User) {
-    user.uid = StringHelper.generateRandom(10)
+    if (!user.uid) {
+      user.uid = StringHelper.generateRandom(10)
+    }
   }
 
   static search = scope((query, search?: string, type?: UserType, status?: UserStatus) => {

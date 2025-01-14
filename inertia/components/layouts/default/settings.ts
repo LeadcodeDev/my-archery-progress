@@ -52,11 +52,8 @@ export const managerLinks = [
     ],
   },
   {
-    title: 'Manage organizations',
-    items: [
-      { title: 'Groups', url: '#' },
-      { title: 'Structures', url: '#' },
-    ],
+    title: 'Manage clubs',
+    items: [{ title: 'Clubs', url: '/manager/guilds/overview' }],
   },
 ]
 

@@ -60,6 +60,7 @@ export default defineConfig({
     () => import('#start/routes'),
     () => import('#app/manager/accounts/routes'),
     () => import('#app/manager/authentication/routes'),
+    () => import('#app/manager/guilds/routes'),
     () => import('#app/client/practices/routes'),
     () => import('#app/guilds/members/routes'),
     () => import('#start/kernel'),

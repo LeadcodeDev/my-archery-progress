@@ -9,10 +9,10 @@ import {
 import { Input } from '@/components/ui/input'
 import SelectBox from '@/components/ui/select'
 import { UseFormReturn } from 'react-hook-form'
-import { CreateUserFormSchema } from '@/pages/manager/accounts/validators/user_validators'
 import Role from '#models/role'
 import { UserStatus } from '@/commons/types'
 import { Label } from '@/components/ui/label'
+import { CreateUserFormSchema } from '@/pages/manager/accounts/users/validators/user_validators'
 
 type Props = {
   form: UseFormReturn<CreateUserFormSchema>
@@ -57,9 +57,7 @@ export function CreateUserForm(props: Props) {
                       placeholder="Picture"
                       type="file"
                       accept="image/*, application/pdf"
-                      onChange={(event) =>
-                        onChange(event.target.files && event.target.files[0])
-                      }
+                      onChange={(event) => onChange(event.target.files && event.target.files[0])}
                     />
                   </div>
                 </FormControl>
