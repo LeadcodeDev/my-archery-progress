@@ -1,28 +1,37 @@
 import StringHelper from '@adonisjs/core/helpers/string'
 import app from '@adonisjs/core/services/app'
 import { join } from 'node:path'
-import sharp from 'sharp'
+import sharp, { Sharp } from 'sharp'
 import { rm } from 'node:fs/promises'
 import drive from '@adonisjs/drive/services/main'
 import logger from '@adonisjs/core/services/logger'
 
+type UploadProps = {
+  location: string
+  file: any
+  transformer: (sharp: Sharp) => Sharp
+}
+
 export default class AssetsService {
-  async convertAndUpload(location: string, file: any): Promise<string> {
+  async upload(props: UploadProps): Promise<string> {
     const uid = StringHelper.generateRandom(10)
-    const localKeyPath = join(location, `${uid}.${file.extname}`)
-    const keyPath = join(location, `${uid}.webp`)
+    const localKeyPath = join(props.location, `${uid}.${props.file.extname}`)
+    const keyPath = join(props.location, `${uid}.webp`)
 
     try {
-      await file.move(app.tmpPath(), { name: localKeyPath })
+      await props.file.move(app.tmpPath(), { name: localKeyPath })
 
-      const buffer = await sharp(app.tmpPath(localKeyPath)).webp({ quality: 80 }).toBuffer()
+      const buffer = await props
+        .transformer(sharp(app.tmpPath(localKeyPath)))
+        .webp({ quality: 80 })
+        .toBuffer()
 
       const disk = drive.use()
       await disk.put(keyPath, buffer)
     } catch (e) {
       logger.error(e)
     } finally {
-      await rm(join(app.tmpPath(), location), { recursive: true })
+      await rm(join(app.tmpPath(), props.location), { recursive: true })
     }
 
     return keyPath

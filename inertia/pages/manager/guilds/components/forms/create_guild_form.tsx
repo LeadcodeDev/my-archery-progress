@@ -3,6 +3,7 @@ import { Input } from '@/components/ui/input'
 import { useForm } from 'react-hook-form'
 import { CreateGuildFormSchema } from '@/pages/manager/guilds/validators/guild_validators'
 import { Switch } from '@/components/ui/switch'
+import { InputImage } from '@/components/commons/input_image'
 
 type Props = {
   id?: string
@@ -19,19 +20,17 @@ export default function CreateGuildForm(props: Props) {
         <FormField
           control={form.control}
           name="logo"
-          render={({ field: { value, onChange, ...fieldProps } }) => (
+          render={({ field: { value, onChange, ...fields } }) => (
             <FormItem className="flex-1">
               <FormLabel>Logo</FormLabel>
               <FormControl>
                 <div className="grid w-full max-w-sm items-center gap-1.5">
-                  <Input
-                    id="logo"
-                    {...fieldProps}
-                    placeholder="Picture"
-                    type="file"
-                    accept="image/*"
-                    onChange={(event) => onChange(event.target.files && event.target.files[0])}
-                    disabled={!props.canBeUsed}
+                  <InputImage
+                    {...fields}
+                    value={value}
+                    name="logo"
+                    onFileChange={onChange}
+                    className="w-[64] h-[64] aspect-square object-cover"
                   />
                 </div>
               </FormControl>
@@ -77,7 +76,9 @@ export default function CreateGuildForm(props: Props) {
                 <div className="flex gap-2">
                   <Switch
                     disabled={!props.canBeUsed}
-                    labelBuilder={(checked) => checked ? 'Le compte est désactivé' : 'Le compte est actif'}
+                    labelBuilder={(checked) =>
+                      checked ? 'Le compte est désactivé' : 'Le compte est actif'
+                    }
                     checked={field.value}
                     onCheckedChange={field.onChange}
                     {...field}

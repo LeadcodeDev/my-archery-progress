@@ -27,7 +27,7 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
         <header className="flex sticky z-10 top-0 bg-background h-16 shrink-0 items-center gap-2 border-b px-4">
           <SidebarTrigger className="-ml-1" />
           {props.breadcrumb && (
-            <Fragment>
+            <div className="hidden md:flex items-center">
               <Separator orientation="vertical" className="mr-2 !h-6" />
               <Breadcrumb>
                 <BreadcrumbList>
@@ -53,10 +53,10 @@ export function Layout(props: PropsWithChildren<LayoutProps>) {
                   })}
                 </BreadcrumbList>
               </Breadcrumb>
-            </Fragment>
+            </div>
           )}
 
-          {props.trailing && <div className="flex-1 items-center w-full">{props.trailing}</div>}
+          {props.trailing && <div className="hidden md:block flex-1 items-center w-full">{props.trailing}</div>}
         </header>
         {props.children}
         <Toaster />

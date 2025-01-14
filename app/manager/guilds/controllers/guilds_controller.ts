@@ -1,10 +1,10 @@
 import type { HttpContext } from '@adonisjs/core/http'
-import { updateUserValidator } from '#app/manager/accounts/validators/user_validator'
 import User from '#models/user'
 import Role from '#models/role'
 import {
   createGuildValidator,
   guildsSearchValidator,
+  updateGuildValidator,
 } from '#app/manager/guilds/validators/guilds_validator'
 import Structure from '#models/structure'
 import AssetsService from '#app/commons/services/assets_service'
@@ -38,7 +38,11 @@ export default class GuildsController {
       ...data,
       uid: structureUid,
       logo: data.logo
-        ? await this.assetsService.convertAndUpload(`guilds/${structureUid}/logo`, data.logo)
+        ? await this.assetsService.upload({
+            location: `guilds/${structureUid}/logo`,
+            file: data.logo,
+            transformer: Structure.transformLogo,
+          })
         : undefined,
     })
 
@@ -51,29 +55,34 @@ export default class GuildsController {
   }
 
   async edit({ inertia, params }: HttpContext) {
-    const user = await User.query().where('uid', params.uid).firstOrFail()
-    const roles = await Role.query()
-    const connexions = await User.accessTokens.all(user)
-
-    return inertia.render('manager/guilds/guild_edit_page', { user, roles, connexions })
+    const structure = await Structure.query().where('uid', params.uid).firstOrFail()
+    return inertia.render('manager/guilds/guild_edit_page', { guild: structure })
   }
 
   async update({ request, response, params }: HttpContext) {
-    const data = await request.validateUsing(updateUserValidator(params.uid))
+    const data = await request.validateUsing(updateGuildValidator)
 
-    const user = await User.findByOrFail('uid', params.uid)
-    await user.merge(data).save()
+    const structure = await Structure.findByOrFail('uid', params.uid)
+    await structure
+      .merge({
+        ...data,
+        logo: data.logo
+          ? await this.assetsService.upload({
+              location: `guilds/${structure.uid}/logo`,
+              file: data.logo,
+              transformer: Structure.transformLogo,
+            })
+          : undefined,
+      })
+      .save()
 
     return response.redirect().toRoute('manager.guilds.index')
   }
 
   async delete({ response, params }: HttpContext) {
-    const user = await User.findByOrFail('uid', params.uid)
+    const structure = await Structure.findByOrFail('uid', params.uid)
+    await structure.delete()
 
-    await user.related('permissions').detach()
-    await user.related('roles').detach()
-
-    await user.delete()
     return response.redirect().toRoute('manager.guilds.index')
   }
 }

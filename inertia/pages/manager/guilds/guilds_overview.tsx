@@ -7,7 +7,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { Fragment } from 'react'
+import { Dispatch, Fragment, SetStateAction, useState } from 'react'
 
 import { Paginator, UserStatus } from '@/commons/types'
 import { Searchbar } from '@/components/commons/searchbar'
@@ -18,14 +18,16 @@ import TableFilter, { ComponentFilter } from '@/components/commons/table_filter'
 import Protected from '@/components/commons/protected'
 import { Layout } from '@/components/layouts/default/layout'
 import Structure from '#models/structure'
-import { router } from '@inertiajs/react'
 import { CreateGuildDialog } from '@/pages/manager/guilds/components/create_guild_dialog'
+import { UpdateGuildDialog } from '@/pages/manager/guilds/components/update_guild_dialog'
 
 type Props = {
   guilds: Paginator<Structure>
 }
 
 export default function GuildsOverview(props: Props) {
+  const [guild, setGuild] = useState<Structure | null>(null)
+
   return (
     <Layout
       mode="manager"
@@ -73,15 +75,20 @@ export default function GuildsOverview(props: Props) {
           </TableHeader>
           <TableBody
             data={props.guilds.data}
-            builder={(guild) => <RowBuilder key={guild.uid} guild={guild} />}
+            builder={(guild) => <RowBuilder key={guild.uid} guild={guild} setGuild={setGuild} />}
           />
         </Table>
+
+        <UpdateGuildDialog guildState={[guild, setGuild]} />
       </Fragment>
     </Layout>
   )
 }
 
-function RowBuilder(props: { guild: Structure }) {
+function RowBuilder(props: {
+  guild: Structure
+  setGuild: Dispatch<SetStateAction<Structure | null>>
+}) {
   async function onCopy(value: string) {
     await navigator.clipboard.writeText(value)
     toast('Copied to the clipboard', {
@@ -97,14 +104,14 @@ function RowBuilder(props: { guild: Structure }) {
           <CopyIcon className="ml-2 -mr-1 size-2" />
         </Badge>
       </TableCell>
-      <TableCell onClick={() => router.get(props.guild.name)} className="cursor-pointer">
+      <TableCell onClick={() => props.setGuild(props.guild)} className="cursor-pointer">
         {props.guild.name}
       </TableCell>
-      <TableCell onClick={() => router.get(props.guild.siret)} className="cursor-pointer">
+      <TableCell onClick={() => props.setGuild(props.guild)} className="cursor-pointer">
         {props.guild.siret}
       </TableCell>
       <TableCell
-        onClick={() => router.get(props.guild.uid)}
+        onClick={() => props.setGuild(props.guild)}
         className="flex items-center gap-x-2 cursor-pointer"
       >
         {props.guild.isDeactivated ? (
@@ -113,9 +120,10 @@ function RowBuilder(props: { guild: Structure }) {
           <Badge variant="success">Activate</Badge>
         )}
       </TableCell>
-      <TableCell onClick={() => router.get(props.guild.uid)} className="text-right cursor-pointer">
-        Actions
-      </TableCell>
+      <TableCell
+        onClick={() => props.setGuild(props.guild)}
+        className="text-right cursor-pointer"
+      ></TableCell>
     </TableRow>
   )
 }

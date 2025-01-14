@@ -46,7 +46,11 @@ export default class UsersController {
       ...data,
       uid,
       avatar: data.avatar
-        ? await this.assetsService.convertAndUpload(`users/avatar/${uid}`, data.avatar)
+        ? await this.assetsService.upload({
+            location: `users/${uid}/avatar`,
+            file: data.avatar,
+            transformer: User.transformAvatar,
+          })
         : null,
     })
 
@@ -78,13 +82,15 @@ export default class UsersController {
     const data = await request.validateUsing(updateUserValidator(params.uid))
     const user = await User.findByOrFail('uid', params.uid)
 
-    const uid = StringHelper.generateRandom(10)
-
     await user
       .merge({
         ...data,
         avatar: data.avatar
-          ? await this.assetsService.convertAndUpload(`users/avatar/${uid}`, data.avatar)
+          ? await this.assetsService.upload({
+              location: `users/${user.uid}/avatar`,
+              file: data.avatar,
+              transformer: User.transformAvatar,
+            })
           : user.avatar,
       })
       .save()
