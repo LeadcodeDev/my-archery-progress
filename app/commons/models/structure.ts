@@ -15,7 +15,7 @@ export default class Structure extends BaseModel {
   declare siret: string
 
   @column()
-  declare is_deactivated: boolean
+  declare isDeactivated: boolean
 
   @column()
   declare logo: string

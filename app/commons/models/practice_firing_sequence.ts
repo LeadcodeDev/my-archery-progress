@@ -6,7 +6,7 @@ export default class PracticeFiringSequence extends BaseModel {
   declare id: number
 
   @column()
-  declare practiceId: bigint
+  declare practiceId: number
 
   @column()
   declare results: Record<string, any>
