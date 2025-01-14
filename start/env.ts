@@ -42,7 +42,7 @@ export default await Env.create(new URL('../', import.meta.url), {
   | Variables for configuring the drive package
   |----------------------------------------------------------
   */
-  DRIVE_DISK: Env.schema.enum(['s3', 'gcp'] as const),
+  DRIVE_DISK: Env.schema.enum(['gcp'] as const),
   AUTH_COOKIE: Env.schema.string(),
   GCP_CLIENT_EMAIL: Env.schema.string(),
   GCP_PRIVATE_KEY: Env.schema.string(),
@@ -57,4 +57,6 @@ export default await Env.create(new URL('../', import.meta.url), {
   SMTP_HOST: Env.schema.string(),
   SMTP_PORT: Env.schema.string(),
   SMTP_EMAIL: Env.schema.string(),
+  SMTP_USERNAME: Env.schema.string(),
+  SMTP_PASSWORD: Env.schema.string(),
 })
