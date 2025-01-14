@@ -6,11 +6,12 @@ export default class extends BaseSchema {
   async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
-      table.bigint('owner_id').references('id').inTable('users').notNullable()
+      table.bigint('owner_id').unsigned().references('id').inTable('users').notNullable()
+      table.string('uid').notNullable()
       table.string('name').notNullable()
       table.string('siret').notNullable()
       table.boolean('is_deactivated').defaultTo(false).notNullable()
-      table.string('logo').notNullable()
+      table.string('logo').nullable()
       table.timestamp('created_at')
       table.timestamp('updated_at')
     })

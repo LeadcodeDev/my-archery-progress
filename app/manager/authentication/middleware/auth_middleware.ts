@@ -21,8 +21,11 @@ export default class AuthMiddleware {
   ) {
     await ctx.auth.authenticateUsing(options.guards, { loginRoute: this.redirectTo })
 
-    await ctx.auth.user?.load('roles', (query) => query.preload('permissions'))
-    await ctx.auth.user?.load('permissions')
+    await Promise.all([
+      ctx.auth.user?.load('roles', (query) => query.preload('permissions')),
+      ctx.auth.user?.load('permissions'),
+      ctx.auth.user?.load('structures'),
+    ])
 
     return next()
   }

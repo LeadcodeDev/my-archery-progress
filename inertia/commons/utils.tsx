@@ -92,4 +92,5 @@ export const permission = {
   users: (action: Action, manager: boolean = false) => `${manager ? 'manager:' : ''}users:${action}`,
   roles: (action: Action, manager: boolean = false) => `${manager ? 'manager:' : ''}roles:${action}`,
   permissions: (action: Action, manager: boolean = false) => `${manager ? 'manager:' : ''}permissions:${action}`,
+  guilds: (action: Action, manager: boolean = false) => `${manager ? 'manager:' : ''}guilds:${action}`,
 }

@@ -9,6 +9,7 @@ import { inject } from '@adonisjs/core'
 import AssetsService from '#app/commons/services/assets_service'
 import db from '@adonisjs/lucid/services/db'
 import Role from '#models/role'
+import StringHelper from '@adonisjs/core/helpers/string'
 
 @inject()
 export default class UsersController {
@@ -39,10 +40,14 @@ export default class UsersController {
 
   async store({ request, response }: HttpContext) {
     const data = await request.validateUsing(createUserValidator)
+    const uid = StringHelper.generateRandom(10)
 
     const user = await User.create({
       ...data,
-      avatar: data.avatar ? await this.assetsService.convertAndUpload(data.avatar) : null,
+      uid,
+      avatar: data.avatar
+        ? await this.assetsService.convertAndUpload(`users/avatar/${uid}`, data.avatar)
+        : null,
     })
 
     if (data.permissions) {
@@ -73,10 +78,14 @@ export default class UsersController {
     const data = await request.validateUsing(updateUserValidator(params.uid))
     const user = await User.findByOrFail('uid', params.uid)
 
+    const uid = StringHelper.generateRandom(10)
+
     await user
       .merge({
         ...data,
-        avatar: data.avatar ? await this.assetsService.convertAndUpload(data.avatar) : user.avatar,
+        avatar: data.avatar
+          ? await this.assetsService.convertAndUpload(`users/avatar/${uid}`, data.avatar)
+          : user.avatar,
       })
       .save()
 
